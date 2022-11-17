@@ -1,5 +1,5 @@
 /**
- * Copyright(c) 2021 All rights reserved by Jungho Kim in Myungji University.
+2 * Copyright(c) 2021 All rights reserved by Jungho Kim in Myungji University.
  */
 package Components.Middle;
 
@@ -30,6 +30,8 @@ public class MiddleFilter extends CommonFilterImpl{
                 	haveString = true;
             }      
             if(haveString == true) {
+            	System.out.println("index!: "+idx);
+            	System.out.println(buffer[idx]);
                 for(int i = 0; i<idx; i++) 
                     out.write((char)buffer[i]);
                 haveString = false;

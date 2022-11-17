@@ -3,41 +3,44 @@
  */
 package Framework;
 
+import java.io.PipedInputStream;
+import java.io.SequenceInputStream;
+
 import Components.AddFilter.AddFilter;
 import Components.DeleteFilter.DeleteFilter;
 import Components.Middle.ExclusiveMiddleFilter;
 import Components.Middle.MiddleFilter;
 import Components.Sink.SinkFilter;
 import Components.Source.SourceFilter;
+import synthesizeFilter.synthesizeFilter;
 
 public class homework4 {
     public static void main(String[] args) {
         try {
             CommonFilter courseSourceFilter = new SourceFilter("Courses.txt");
             CommonFilter StudentsourceFilter = new SourceFilter("Students.txt");
-            CommonFilter sinkFilter1 = new SinkFilter("/Users/leejongmin/Desktop/output/Output4-1.txt");
-            CommonFilter sinkFilter2 = new SinkFilter("/Users/leejongmin/Desktop/output/Output4-2.txt");
-            CommonFilter Delete17651Filter = new DeleteFilter("17651");
-            CommonFilter Delete17652Filter = new DeleteFilter("17652");
-             
+            CommonFilter SinkFilter1 = new SinkFilter("/Users/leejongmin/Desktop/output/Output4-1.txt");
+            CommonFilter SinkFilter2 = new SinkFilter("/Users/leejongmin/Desktop/output/Output4-2.txt");
+            synthesizeFilter synthesizeFilter = new synthesizeFilter();
             
-            sourceFilter.connectOutputTo(middleFilter);
-            middleFilter.connectOutputTo(Delete17651Filter);
-            Delete17651Filter.connectOutputTo(Delete17652Filter);
-            Delete17652Filter.connectOutputTo(sinkFilter);
+            synthesizeFilter.connectInputTo(courseSourceFilter,StudentsourceFilter);
+            SinkFilter1.getPipedInputStream().connect(synthesizeFilter.getNonErrorOutputStream());
+            SinkFilter2.getPipedInputStream().connect(synthesizeFilter.getErrorOutputStream());
             
-            Thread thread1 = new Thread(sourceFilter);
-            Thread thread2 = new Thread(sinkFilter);
-            Thread thread3 = new Thread(middleFilter);
-            Thread thread4 = new Thread(Delete17651Filter);
-            Thread thread5 = new Thread(Delete17652Filter);
-           
+            Thread thread1 = new Thread(courseSourceFilter);
+            Thread thread2 = new Thread(StudentsourceFilter);
+            Thread thread3 = new Thread(synthesizeFilter);
+            Thread thread4 = new Thread(SinkFilter1);
+            Thread thread5 = new Thread(SinkFilter2);
+            
             
             thread1.start();
             thread2.start();
             thread3.start();
             thread4.start();
             thread5.start();
+            
+          
         } catch(Exception e) {
             e.printStackTrace();
         }

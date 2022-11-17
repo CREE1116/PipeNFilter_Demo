@@ -16,7 +16,7 @@ public class SourceFilter extends CommonFilterImpl{
     public SourceFilter(String inputFile){
         this.sourceFile = inputFile;
     }    
-    //¼Ò½º¸¦ ÀÐ¾î¿À´Â ÇÊÅÍ
+    //ï¿½Ò½ï¿½ï¿½ï¿½ ï¿½Ð¾ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½
     @Override
     public boolean specificComputationForFilter() throws IOException {
         int byte_read;    

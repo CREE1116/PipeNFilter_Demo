@@ -10,17 +10,18 @@ import Framework.CommonFilterImpl;
 
 public class SinkFilter extends CommonFilterImpl{
     private String sinkFile;
-    
+  private  FileWriter fw;
     public SinkFilter(String outputFile) {
         this.sinkFile = outputFile;
     }
-    // txt¿¡ Àû´Â ÇÊÅÍ 
+    // txtï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ ï¿½ï¿½ï¿½ï¿½ 
     @Override
     public boolean specificComputationForFilter() throws IOException {
         int byte_read;
-        FileWriter fw = new FileWriter(this.sinkFile);
+        fw = new FileWriter(this.sinkFile);
         while(true) {
             byte_read = in.read(); 
+            System.out.println("---------------"+(char)byte_read);
             if (byte_read == -1) {
             	 fw.close();
                  System.out.print( "::Filtering is finished; Output file is created." );  

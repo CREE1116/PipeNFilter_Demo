@@ -11,7 +11,7 @@ import Components.Source.SourceFilter;
 public class homework1 {
     public static void main(String[] args) {
         try {
-            CommonFilter sourceFilter = new SourceFilter("Students.txt");
+            CommonFilter sourceFilter = new SourceFilter("/Users/leejongmin/eclipse-workspace/PNF/Courses.txt");
             CommonFilter sinkFilter = new SinkFilter("/Users/leejongmin/Desktop/output/Output1.txt");
             CommonFilter middleFilter = new MiddleFilter("CS");
             CommonFilter add12345Filter = new AddFilter("12345");
