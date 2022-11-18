@@ -22,19 +22,8 @@ public class synthesizeFilter extends CommonFilterImpl{
 		for(int i = 0; i < idx; i++) {
 		   if(33 > buffer[i]&& buffer[i]> 126)return;
 				out.write((char)buffer[i]);
-				System.out.print((char)buffer[i]);
 			   }
-			   System.out.println();
 		}
-	private void printBuffer(byte[] buffer,int idx,String out) throws IOException {
-		System.out.print(out+"---\t");
-		for(int i = 0; i < idx; i++) {
-		   if(33 > buffer[i]&& buffer[i]> 126)return;
-				System.out.print((char)buffer[i]);
-			   }
-			   System.out.println();
-		}
-	
 	private boolean checkBuffer(byte[] buffer, int startIdx, int idx){
 		String temp = bufferToString(buffer,startIdx,idx);
 		String [] bufferStringList = temp.trim().split(" ");
@@ -121,10 +110,14 @@ public class synthesizeFilter extends CommonFilterImpl{
 				if(numOfBlank < checkBlank)startIdx = idx;
 			}
 			if(idx>3) {
-			if(checkBuffer(buffer,startIdx,idx))printBuffer(buffer, idx, "NonError");
-			else printBuffer(buffer, idx, "Error");
+			if(checkBuffer(buffer,startIdx,idx))writeBuffer(buffer, idx, NonError);
+			else writeBuffer(buffer, idx, Error);
 			}
-			if(byte_read == -1)return true;
+			if(byte_read == -1) {
+				Error.close();
+				NonError.close();
+				return true;
+			}
 			idx = 0;
 			byte_read = '\0';
 			//return true;
