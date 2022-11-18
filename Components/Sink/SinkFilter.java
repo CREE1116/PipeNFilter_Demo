@@ -14,19 +14,18 @@ public class SinkFilter extends CommonFilterImpl{
     public SinkFilter(String outputFile) {
         this.sinkFile = outputFile;
     }
-    // txt�� ���� ���� 
     @Override
     public boolean specificComputationForFilter() throws IOException {
+    	System.out.println("outputFile: "+sinkFile+"\n");
         int byte_read;
         fw = new FileWriter(this.sinkFile);
         while(true) {
             byte_read = in.read(); 
-            System.out.println("---------------"+(char)byte_read);
             if (byte_read == -1) {
             	 fw.close();
-                 System.out.print( "::Filtering is finished; Output file is created." );  
+                 System.out.print( "\n::Filtering is finished; Output file is created." );  
                  return true;
-            }
+            }else  System.out.print((char)byte_read);
             fw.write((char)byte_read);
         }   
     }
