@@ -13,10 +13,13 @@ import Framework.CommonFilterImpl;
 public class SourceFilter extends CommonFilterImpl{
     private String sourceFile;
     
-    public SourceFilter(String inputFile){
+    public SourceFilter(String inputFile,int portNum){
         this.sourceFile = inputFile;
+        setPortInfo(portNum);
     }    
-    //�ҽ��� �о���� ����
+    public String toString() {
+		 return "SourceFilter--"+sourceFile+"--"+getPortNum(0);
+	 }
     @Override
     public boolean specificComputationForFilter() throws IOException {
         int byte_read;    
@@ -24,7 +27,7 @@ public class SourceFilter extends CommonFilterImpl{
         while(true) {
             byte_read = br.read();
             if (byte_read == -1) return true;
-            out.write(byte_read);
+            out.get(getPortNum(0)).write(byte_read);
         }
     }
 }

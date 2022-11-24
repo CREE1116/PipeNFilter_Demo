@@ -3,24 +3,22 @@ package Components.DeleteFilter;
 
 import java.io.IOException;
 import Framework.CommonFilterImpl;
+import Utility.BufferChecking;
+import Utility.BufferOut;
 
 public class DeleteFilter extends CommonFilterImpl{
 	private String targetString;
-	private boolean checkByteList(byte[] buffer, String string) {
-		boolean temp = true;
-		for(int i = 0 ; i<string.length(); i++) {
-			temp = temp&&(char)buffer[i] == string.charAt(i);
-		}
-		return temp;
-	}
-	 private void writeBuffer(byte[] buffer,int idx) throws IOException {
-		 for(int i = 0; i < idx; i++) {
-			if(33 > buffer[i]&& buffer[i]> 126)return;
-				 out.write((char)buffer[i]);
-				}
-	 }
-	 public DeleteFilter(String targetString) {
+	private BufferChecking bufferChecking;
+	private BufferOut bufferOut;
+	
+	 public DeleteFilter(String targetString, int portNum) {
 		 this.targetString = targetString;
+		 setPortInfo(portNum);
+		 bufferChecking = new BufferChecking();
+		 bufferOut = new BufferOut(getPipedOutputStreamList());
+	 }
+	 public String toString() {
+		 return "DeleteFilter--"+targetString+"--"+getPortNum(0);
 	 }
     @Override
     public boolean specificComputationForFilter() throws IOException {
@@ -33,18 +31,18 @@ public class DeleteFilter extends CommonFilterImpl{
         
   while(true) {          
       while(numOfBlank < checkBlank&& byte_read != -1) {
-      	byte_read = in.read();
+      	byte_read = in.get(getPortNum(0)).read();
           if(byte_read == ' ') numOfBlank++;
           if(byte_read != -1) buffer[idx++] = (byte)byte_read;
       }      
-      writeBuffer(buffer,idx);
+      bufferOut.writeBuffer(buffer,idx,getPortNum(0));
       idx = 0;
       while(31<byte_read) {
-    	  byte_read = in.read();
+    	  byte_read = in.get(getPortNum(0)).read();
     	  if(byte_read == ' ' || byte_read =='\n') {
-    		  if(!checkByteList(buffer, targetString)) {
-    			  writeBuffer(buffer,idx);
-    			  out.write(' ');
+    		  if(!bufferChecking.isbufferEqualString(buffer,0,targetString)) {
+    			  bufferOut.writeBuffer(buffer,idx,getPortNum(0));
+    			  out.get(getPortNum(0)).write(' ');
     		  }
     		  idx = 0;
     	  }else buffer[idx++] = (byte) byte_read;

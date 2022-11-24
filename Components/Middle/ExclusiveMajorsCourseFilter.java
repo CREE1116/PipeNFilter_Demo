@@ -5,12 +5,18 @@ package Components.Middle;
 
 import java.io.IOException;
 import Framework.CommonFilterImpl;
+import Utility.BufferChecking;
+import Utility.BufferOut;
 
-public class ExclusiveMiddleFilter extends CommonFilterImpl{
+public class ExclusiveMajorsCourseFilter extends CommonFilterImpl{
 	private String target;
-	public ExclusiveMiddleFilter(String target) {
+	public ExclusiveMajorsCourseFilter(String target,int portNum) {
 		this.target = target;
+		setPortInfo(portNum);
 	}
+	 public String toString() {
+		 return "ExclusiveMajorsCourseFilter--"+target+"--"+getPortNum(0);
+	 }
     @Override
         
         public boolean specificComputationForFilter() throws IOException {
@@ -23,7 +29,7 @@ public class ExclusiveMiddleFilter extends CommonFilterImpl{
             
             while(true) {          
                 while(byte_read != '\n' && byte_read != -1) {
-                	byte_read = in.read();
+                	byte_read = in.get(getPortNum(0)).read();
                     if(byte_read == ' ') numOfBlank++;
                     if(byte_read != -1) buffer[idx++] = (byte)byte_read;
                     if(numOfBlank == checkBlank && buffer[idx-3] == target.charAt(0) && buffer[idx-2] == target.charAt(1))
@@ -32,7 +38,7 @@ public class ExclusiveMiddleFilter extends CommonFilterImpl{
                 if(!haveString) {
                 	if(idx > 2) {
                     for(int i = 0; i<idx; i++) 
-                    		 out.write((char)buffer[i]);
+                    		 out.get(getPortNum(0)).write((char)buffer[i]);
                 	}
                 }
                 haveString = false;

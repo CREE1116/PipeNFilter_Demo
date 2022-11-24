@@ -3,29 +3,20 @@ package Components.AddFilter;
 
 import java.io.IOException;
 import Framework.CommonFilterImpl;
+import Utility.*;
 
 public class AddFilter extends CommonFilterImpl{
 	private String targetString;
-	private boolean checkByteList(byte[] buffer ,int startIndex, String string) {
-		boolean temp = true;
-		for(int i = startIndex ; i<startIndex+string.length(); i++) {
-			temp = temp&&(char)buffer[i] == string.charAt(i-startIndex);
-		}
-		return temp;
-	}
-	 private void writeString(String string) throws IOException {
-		 for(int i = 0; i<string.length(); i++) {
-			 out.write(string.charAt(i));
-		 }
-	 }
-	 private void writeBuffer(byte[] buffer,int idx) throws IOException {
-		 for(int i = 0; i < idx; i++) {
-			if(33 > buffer[i]&& buffer[i]> 126)return;
-				 out.write((char)buffer[i]);
-				}
-	 }
-	 public AddFilter(String targetString) {
+	private BufferChecking bufferChecking;
+	private BufferOut bufferOut;
+	 public AddFilter(String targetString,int portNum) {
 		 this.targetString = targetString;
+		 bufferChecking = new BufferChecking();
+		 bufferOut = new BufferOut(getPipedOutputStreamList());
+		 setPortInfo(portNum);
+	 }
+	 public String toString() {
+		 return "AddFilter--"+targetString+"--"+getPortNum(0);
 	 }
     @Override
     public boolean specificComputationForFilter() throws IOException {
@@ -39,25 +30,25 @@ public class AddFilter extends CommonFilterImpl{
         
         while(true) {          
             while(numOfBlank < checkBlank&& byte_read != -1) {
-            	byte_read = in.read();
+            	byte_read = in.get(getPortNum(0)).read();
                 if(byte_read == ' ') numOfBlank++;
                 if(byte_read != -1) buffer[idx++] = (byte)byte_read;
             }      
-            writeBuffer(buffer,idx);
+            bufferOut.writeBuffer(buffer,idx,getPortNum(0));
             idx = 0;
             startIndex = 0;
             while(31<byte_read) {
-            	byte_read = in.read();
+            	byte_read = in.get(getPortNum(0)).read();
                 if(byte_read != ' '&& byte_read != '\n')buffer[idx++] = (byte)byte_read;
                 else {
-                	haveString = haveString|checkByteList(buffer,startIndex,targetString);
+                	haveString = haveString|bufferChecking.isbufferEqualString(buffer,startIndex,targetString);
                 	buffer[idx++] = ' ';
                 	startIndex = idx;
                 }
             }
             if (byte_read == -1) return true;
-            if(!haveString) writeString(targetString+" ");
-            writeBuffer(buffer,idx);
+            if(!haveString) bufferOut.writeString(targetString+" ",getPortNum(0));
+            bufferOut.writeBuffer(buffer,idx,getPortNum(0));
             haveString = false;
             idx = 0;
             numOfBlank = 0;
