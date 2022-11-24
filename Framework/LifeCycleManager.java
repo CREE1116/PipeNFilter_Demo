@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.TimeUnit;
 
 import Components.AddFilter.AddFilter;
 import Components.Sink.SinkFilter;
@@ -33,6 +34,7 @@ public class LifeCycleManager {
 				if(filter.getPortList().contains(i))
 					if(temp == null) temp = filter;
 					else { 
+						System.out.println(temp.toString()+"\tConnect Out to\t"+filter+"\t--portNum: "+i);
 						temp.connectOutputTo(filter, i);
 						temp = filter;
 					}
@@ -45,7 +47,6 @@ public class LifeCycleManager {
 		  for(Thread thread : setFilterThread(filterset)) 
 			  thread.start();
 	  }
-	  
 	  public static void main(String[] args) {
 		  LifeCycleManager LC = new LifeCycleManager();
 		  try {
