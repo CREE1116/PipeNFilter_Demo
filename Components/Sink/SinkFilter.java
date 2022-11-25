@@ -18,6 +18,9 @@ public class SinkFilter extends CommonFilterImpl{
     public String toString() {
 		 return "SinkFilter"+"--"+getPortNum(0);
 	 }
+    /** 
+     * 지정된 파일 경로로 출력 
+     */
     @Override
     public boolean specificComputationForFilter() throws IOException {
     	System.out.println("outputFile: "+sinkFile+"\n");

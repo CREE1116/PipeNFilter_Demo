@@ -20,6 +20,9 @@ public class SourceFilter extends CommonFilterImpl{
     public String toString() {
 		 return "SourceFilter--"+sourceFile+"--"+getPortNum(0);
 	 }
+    /**
+     * 지정된 텍스트 파일을 읽어옴 
+     */
     @Override
     public boolean specificComputationForFilter() throws IOException {
         int byte_read;    

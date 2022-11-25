@@ -17,17 +17,22 @@ public class MisinformationFilter extends CommonFilterImpl{
 	private String[] courseLib;
 	private BufferChecking bufferChecking;
 	private BufferOut bufferOut;
-	public MisinformationFilter(int port1, int port2) {
+	public MisinformationFilter(int CourseInputPort, int StudentInputPort) {
 		bufferChecking = new BufferChecking();
 		bufferOut = new BufferOut(getPipedOutputStreamList());
-		setPortInfo(port1);
-		setPortInfo(port2);
+		setPortInfo(CourseInputPort);
+		setPortInfo(StudentInputPort);
 		
 	}
 	public String toString() {
 		 return "MisinformationFilter--"+getPortNum(0)+", "+getPortNum(1);
 	 }
 
+	/** 
+	 * 0번포트: 코스 
+	 * 1번포트: 학생 
+	 * 
+	 */
 	@Override
 	public boolean specificComputationForFilter() throws IOException {
 		String CourseBuffer ="";

@@ -17,6 +17,9 @@ public class ExclusiveMajorsCourseFilter extends CommonFilterImpl{
 	 public String toString() {
 		 return "ExclusiveMajorsCourseFilter--"+target+"--"+getPortNum(0);
 	 }
+	 /**
+	  * 지정한 과목을 듣지 않는 학생들만 출력 
+	  */
     @Override
         
         public boolean specificComputationForFilter() throws IOException {

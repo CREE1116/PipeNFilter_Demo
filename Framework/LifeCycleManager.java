@@ -47,16 +47,4 @@ public class LifeCycleManager {
 		  for(Thread thread : setFilterThread(filterset)) 
 			  thread.start();
 	  }
-	  public static void main(String[] args) {
-		  LifeCycleManager LC = new LifeCycleManager();
-		  try {
-			  LC.run(FilterSet.Sysetm1);
-			  LC.run(FilterSet.System2);
-			  LC.run(FilterSet.System3);
-			  LC.run(FilterSet.System4);
-		  }catch(Exception e) {
-			  e.printStackTrace();
-		  }
-	  }
-
 }

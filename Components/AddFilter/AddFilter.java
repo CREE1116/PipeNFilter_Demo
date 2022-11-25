@@ -18,6 +18,9 @@ public class AddFilter extends CommonFilterImpl{
 	 public String toString() {
 		 return "AddFilter--"+targetString+"--"+getPortNum(0);
 	 }
+	 /**
+	  * 지정한 코스가 학생의 리스트에 없으면 더함 
+	  */
     @Override
     public boolean specificComputationForFilter() throws IOException {
     	int byte_read = 0;

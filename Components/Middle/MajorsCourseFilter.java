@@ -15,6 +15,9 @@ public class MajorsCourseFilter extends CommonFilterImpl{
 	 public String toString() {
 		 return "MajorsCourseFilter--"+target+"--"+getPortNum(0);
 	 }
+	 /**
+	  * 지정한 과목을 든는 학생들만 출력 
+	  */
     @Override
     public boolean specificComputationForFilter() throws IOException {
     	int checkBlank = 4; 

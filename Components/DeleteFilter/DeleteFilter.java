@@ -20,6 +20,9 @@ public class DeleteFilter extends CommonFilterImpl{
 	 public String toString() {
 		 return "DeleteFilter--"+targetString+"--"+getPortNum(0);
 	 }
+	 /**
+	  * 지정한 코스가 학생 리스트에 있으면 제거 
+	  */
     @Override
     public boolean specificComputationForFilter() throws IOException {
     	int byte_read = 0;
